@@ -10,11 +10,20 @@ class ThreadController extends Controller
     }
 
     public function get(){
-        $thread = ThreadModel::where('ID', '=', $_GET['id']);
+        $thread = ThreadModel::get($_GET['id']);
+
         print_r($thread);
     }
 
     public function post(){
-        $thread = new ThreadModel($_POST['name'], $_POST['description'], $_POST['user_id']);
+        $thread = new ThreadModel([
+            ':id' => null,
+            ':name' => 'testtest',
+            ':description' => 'de beschrijving',
+            ':owner' => 1,
+            ':post' => 1,
+            ':member' => 1]);
+
+        echo 'new thread has been saved';
     }
 }

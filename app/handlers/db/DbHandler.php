@@ -5,7 +5,7 @@ class DbHandler
 
     private $db;
 
-    public $table_name;
+    private $query;
 
     private function __construct()
     {
@@ -21,29 +21,13 @@ class DbHandler
         }
     }
 
-    public function select($query){
-        $query_db = $this->db->query($query);
-        $result = $query_db->fetchAll();
+    public function dbQuery($query){
+        $this->query = $this->db->prepare($query);
 
-        $this->dbDisconnect();
-        return $result;
+        return $this->query;
     }
 
-    public function table($table){
-        $this->table_name = $table;
-
-        return $this;
-    }
-
-    public function insert($data){
-        $query_db = $this->db->prepare("INSERT INTO $this->table_name values($data)");
-        $result = $query_db->execute();
-
-        $this->dbDisconnect();
-        return $result;
-    }
-
-    private function dbDisconnect(){
+    public function dbDisconnect(){
         $this->db = null;
     }
 

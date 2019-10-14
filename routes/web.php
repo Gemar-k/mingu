@@ -14,6 +14,8 @@ $router->get('/mingu/login', 'AuthController@login')->name('login');
 $router->get('/mingu/threads', 'ThreadController@index')->name('threads');
 //get one thread page
 $router->get('/mingu/thread', 'ThreadController@get')->name('thread');
+//post one thread
+$router->post('/mingu/thread', 'ThreadController@post')->name('thread_save');
 //get all posts page
 $router->get('/mingu/posts', 'PostController@index')->name('posts');
 //post one post

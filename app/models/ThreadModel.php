@@ -2,8 +2,16 @@
 
 class ThreadModel extends Model
 {
-    public function __construct($name, $description, $owner)
-    {
+    protected $ID;
 
-    }
+    protected $Name;
+
+    protected $Description;
+
+    protected $Owner;
+
+    protected $Post;
+
+    protected $Member;
+
 }
