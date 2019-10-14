@@ -28,8 +28,10 @@ class Route
     }
 
     //set the optional route name
-    public function name(string $name) : void{
+    public function name(string $name) : Route{
         $this->name = $name;
+
+        return $this;
     }
 
     //retrieve the optional route name

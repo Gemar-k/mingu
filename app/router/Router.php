@@ -42,7 +42,7 @@ class Router
     }
 
     //creates a new controller object and executes the corresponding function that is defined in web.php route string
-    public function createControllerInstance($route) : bool {
+    public function createControllerInstance($route) {
         if (strpos($route, '@') !== false){
             $controller_fn = explode('@', $route);
             $controller = $controller_fn[0];
@@ -57,12 +57,12 @@ class Router
                 if (method_exists($object, $fn) && is_callable($controller_fn)){
                     $object->$fn();
 
-                    return true;
+                    return $object;
                 }
             }
         }
 
-        return false;
+        return null;
     }
 
     //returns route by name if defined

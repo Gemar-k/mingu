@@ -5,11 +5,13 @@ class DbHandler
 
     private $db;
 
+    public $table_name;
+
     private function __construct()
     {
         try{
             $servername = "localhost";
-            $dbname = "mijnwebsite";
+            $dbname = "the32chan";
             $charset = "utf8mb4";
 
             $this->db = new PDO("mysql:host=".$servername.";dbname=".$dbname.";charset=".$charset, "root", "");
@@ -27,8 +29,14 @@ class DbHandler
         return $result;
     }
 
-    public function prepare($query){
-        $query_db = $this->db->prepare($query);
+    public function table($table){
+        $this->table_name = $table;
+
+        return $this;
+    }
+
+    public function insert($data){
+        $query_db = $this->db->prepare("INSERT INTO $this->table_name values($data)");
         $result = $query_db->execute();
 
         $this->dbDisconnect();
