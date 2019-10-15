@@ -17,12 +17,12 @@ class ThreadController extends Controller
 
     public function post(){
         $thread = new ThreadModel([
-            ':id' => null,
-            ':name' => 'testtest',
-            ':description' => 'de beschrijving',
-            ':owner' => 1,
-            ':post' => 1,
-            ':member' => 1]);
+            ':ID' => null,
+            ':Name' => $_POST['name'],
+            ':Description' => $_POST['description'],
+            ':Owner' => 1,
+            ':Post' => $_POST['post'],
+            ':Member' => 1]);
 
         echo 'new thread has been saved';
     }

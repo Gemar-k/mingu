@@ -3,6 +3,7 @@ require_once 'app/handlers/db/DbHandler.php';
 
 class Model
 {
+    //get all the data from the database that corresponds to the model
     public static function all(){
         $stm = DbHandler::dbConnect()->dbQuery("SELECT * FROM ". str_replace('model', '', strtolower(get_called_class())));
         $stm->execute();
@@ -10,6 +11,7 @@ class Model
         return $stm->fetchAll();
     }
 
+    //get specific data from database by id that corresponds to the model
     public static function get($id){
         $stm = DbHandler::dbConnect()->dbQuery("SELECT * FROM ". str_replace('model', '', strtolower(get_called_class())) . " WHERE id = :id");
         $stm->execute([':id' => $id]);
@@ -17,30 +19,25 @@ class Model
         return $stm->fetchAll();
     }
 
-    //still needs work
+    //insert new data in database when a new object is created
     public function __construct(array $values)
     {
-        $stm = DbHandler::dbConnect()->dbQuery("INSERT INTO (".  $this->getModelParameterNames() . ") " . $this->getModelName() . " VALUES(:id, :name, :description, :owner, :post, :member)");
+        $stm = DbHandler::dbConnect()->dbQuery("INSERT INTO ". $this->getModelName() . " (".  $this->getModelParameterNames() . ") " . " VALUES (".$this->getModelValueNames().")");
         $stm->execute($values);
-        var_dump($stm);
     }
 
+    //get the name of the model that is initiated
     protected function getModelName() : string {
         return str_replace('model', '', strtolower(get_called_class()));
     }
 
-    protected function getModelParameterNames() : string {
-        $properties = get_object_vars($this);
-        $prop = "";
-        for($i = 0; $i < count($properties); $i++) {
-            if ($i + 1 == count($properties)){
-                $prop = "$prop" . key($properties) . "";
-            }else {
-                $prop = "$prop" . key($properties) . ", ";
-            }
-            next($properties);
-        }
+    //get the names of all the parameters in the model in value form
+    protected function getModelValueNames() : string {
+        return ':'. implode(', :', array_keys(get_object_vars($this)));
+    }
 
-        return $prop;
+    //get the names of all the parameters in the model in parameter form
+    protected function getModelParameterNames() : string {
+        return implode(', ', array_keys(get_object_vars($this)));
     }
 }
